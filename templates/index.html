@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse d'émotion</title>
+    
+</head>
+<body>
+    <h1>Analyse d'émotion</h1>
+    <form id="form">
+        <textarea id="text" name="texte" placeholder="Entrez votre texte ici..."></textarea>
+        <button type="submit">Analyser</button>
+    </form>    
+    <div id="result"></div>
+    <!-- Ajoutez des scripts JavaScript ici -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#form').submit(function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: '/analyse_emotion',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response){
+                        $('#result').text('Émotion détectée : ' + response.emotion);
+                    },
+                    error: function(xhr, status, error){
+                        console.error('Erreur lors de la requête AJAX :', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
